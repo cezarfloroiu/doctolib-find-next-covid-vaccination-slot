@@ -4,6 +4,8 @@ Starting with 12 May 2021, in France, even if you are not eligible for vaccinati
 
 This script grabs the next availabilities so that you can register quickly and get your vaccin.
 
+Source: Doctolib API (undocumented)
+
 NPM Dependencies: request, moment
 
 Run: node index.js
