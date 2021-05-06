@@ -1,4 +1,5 @@
 const request = require("request");
+const moment = require("moment");
 
 async function getVaccinationCenters(url) {
     var options = {
@@ -100,8 +101,14 @@ function Sleep(ms) {
             if (availDetails.total > 0) {
                 for (const availability of availDetails.availabilities) {
                     if (availability.slots.length > 0 ) {
-                        //console.log(availability.slots)
-                        console.log ('Found slots on ' + availability.date + ' at ' + doctor.name_with_title + ', ' + doctor.address + ', ' + doctor.city + ' ' + doctor.zipcode);
+                        //console.log (availability.slots);
+                        let slots = '';
+                        for (const slot of availability.slots)
+                        {
+                            slots += '[' + moment(slot.start_date).format("hh:mm") + '-' + moment(slot.end_date).format("hh:mm") + ']';
+                        }
+
+                        console.log ('Found ' + availability.slots.length + ' slots {' + slots + '} on ' + availability.date + ' at ' + doctor.name_with_title + ', ' + doctor.address + ', ' + doctor.city + ' ' + doctor.zipcode);
                     }
                 }
             
