@@ -1,10 +1,10 @@
 # Find the next available Covid vaccin slot from Doctolib 🇫🇷
 
-Motivation: *Mercredi 12 mai : les personnes majeures peuvent prendre rendez-vous si un créneau est disponible sous 24 heures.*
+*Mercredi 12 mai : les personnes majeures peuvent prendre rendez-vous si un créneau est disponible sous 24 heures.*
 
-This script grabs the next availabilities so that you can register quickly and get your vaccin.
+This script grabs the next availabilities so that you can register quickly and get your vaccin done.
 
-Source: Doctolib API (undocumented)
+Data: Doctolib API (undocumented)
 
 NPM Dependencies: request, moment
 
