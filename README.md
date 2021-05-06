@@ -1,1 +1,1 @@
-# doctolib-find-next-covid-vaccination-slot
+# Find the next availability for a vaccination from Doctolib
