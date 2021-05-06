@@ -23,6 +23,11 @@ async function getVaccinationCenters(url) {
 }
 
 async function getUrlData(doctorId) {
+    /*
+    Ref_visit_motive_ids from:   https://api.doctolib.fr/covid_vaccines/
+    Response:  [{"id":37,"name":"astrazeneca","first_shot_ref_visit_motive_id":7107,"second_shot_ref_visit_motive_id":7108},{"id":2,"name":"moderna","first_shot_ref_visit_motive_id":7005,"second_shot_ref_visit_motive_id":7004},{"id":1,"name":"pfizer","first_shot_ref_visit_motive_id":6970,"second_shot_ref_visit_motive_id":6971}]
+    */
+
     var options = {
         url: `https://www.doctolib.fr/search_results/${doctorId}.json?ref_visit_motive_ids%5B%5D=6970&ref_visit_motive_ids%5B%5D=7005&speciality_id=5494&search_result_format=json&limit=3`,
         encoding: null,
@@ -53,10 +58,8 @@ function Sleep(ms) {
 
 (async () => {
 
-    /*
-    https://api.doctolib.fr/covid_vaccines/
-	[{"id":37,"name":"astrazeneca","first_shot_ref_visit_motive_id":7107,"second_shot_ref_visit_motive_id":7108},{"id":2,"name":"moderna","first_shot_ref_visit_motive_id":7005,"second_shot_ref_visit_motive_id":7004},{"id":1,"name":"pfizer","first_shot_ref_visit_motive_id":6970,"second_shot_ref_visit_motive_id":6971}]
-    */
+
+    /* hard coded searches */
     const vaccinationPlaces = [
     'https://www.doctolib.fr/vaccination-covid-19/94130-nogent-sur-marne.json?ref_visit_motive_ids%5B%5D=6970&ref_visit_motive_ids%5B%5D=7005',
     'https://www.doctolib.fr/vaccination-covid-19/94130-nogent-sur-marne.json?ref_visit_motive_ids%5B%5D=6970&ref_visit_motive_ids%5B%5D=7005&page=2',
@@ -86,10 +89,11 @@ function Sleep(ms) {
 
         const res = await getVaccinationCenters(page);        
         const json = JSON.parse(res);
-        //console.log (json.data.doctors);
+
+        console.log (json.data.doctors);
 
         for (const doctor of json.data.doctors){
-            await Sleep(2000); // throttle a bit the calls
+            //await Sleep(2000); // throttle a bit the calls
 
             //console.log (doctor.id);
 
@@ -99,9 +103,10 @@ function Sleep(ms) {
             const availDetails = JSON.parse(avail);
             //console.log(availDetails)
             if (availDetails.total > 0) {
+                
+                // slots available to make them readable
                 for (const availability of availDetails.availabilities) {
                     if (availability.slots.length > 0 ) {
-                        //console.log (availability.slots);
                         let slots = '';
                         for (const slot of availability.slots)
                         {
