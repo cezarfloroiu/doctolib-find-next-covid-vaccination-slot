@@ -47,13 +47,16 @@ function Sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
+// Main function
+
 (async () => {
 
     /*
     https://api.doctolib.fr/covid_vaccines/
 	[{"id":37,"name":"astrazeneca","first_shot_ref_visit_motive_id":7107,"second_shot_ref_visit_motive_id":7108},{"id":2,"name":"moderna","first_shot_ref_visit_motive_id":7005,"second_shot_ref_visit_motive_id":7004},{"id":1,"name":"pfizer","first_shot_ref_visit_motive_id":6970,"second_shot_ref_visit_motive_id":6971}]
     */
-    const vaccinationCenters = [
+    const vaccinationPlaces = [
     'https://www.doctolib.fr/vaccination-covid-19/94130-nogent-sur-marne.json?ref_visit_motive_ids%5B%5D=6970&ref_visit_motive_ids%5B%5D=7005',
     'https://www.doctolib.fr/vaccination-covid-19/94130-nogent-sur-marne.json?ref_visit_motive_ids%5B%5D=6970&ref_visit_motive_ids%5B%5D=7005&page=2',
     'https://www.doctolib.fr/vaccination-covid-19/94130-nogent-sur-marne.json?ref_visit_motive_ids%5B%5D=6970&ref_visit_motive_ids%5B%5D=7005&page=3',
@@ -78,9 +81,9 @@ function Sleep(ms) {
 
 ]
 
-    for (const city of vaccinationCenters) {
+    for (const page of vaccinationPlaces) {
 
-        const res = await getVaccinationCenters(city);        
+        const res = await getVaccinationCenters(page);        
         const json = JSON.parse(res);
         //console.log (json.data.doctors);
 
@@ -89,15 +92,15 @@ function Sleep(ms) {
 
             //console.log (doctor.id);
 
-            // look for availabilities
+            // look for availabilities for each doctor / center
             const avail = await getUrlData(doctor.id);
-
             
             const availDetails = JSON.parse(avail);
             //console.log(availDetails)
             if (availDetails.total > 0) {
                 for (const availability of availDetails.availabilities) {
                     if (availability.slots.length > 0 ) {
+                        //console.log(availability.slots)
                         console.log ('Found slots on ' + availability.date + ' at ' + doctor.name_with_title + ', ' + doctor.address + ', ' + doctor.city + ' ' + doctor.zipcode);
                     }
                 }
