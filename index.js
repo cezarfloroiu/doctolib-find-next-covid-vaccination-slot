@@ -102,7 +102,7 @@ function Sleep(ms) {
             //console.log(availDetails)
             if (availDetails.total > 0) {
                 
-                // slots available to make them readable
+                // get the available slots and make them readable by humans
                 for (const availability of availDetails.availabilities) {
                     if (availability.slots.length > 0 ) {
                         let slots = '';
